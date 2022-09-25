@@ -2,5 +2,11 @@
   "name": "github-actions-cahce-test",
   "version": "1.0.0",
   "description": "",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.3"
+  }
 }
