@@ -1,0 +1,28 @@
+name: Caching node modules
+
+on:
+  push:
+    branches: [develop]
+    paths: ['src']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Cache node modules
+        id: node-cache
+        uses: actions/cache@v3
+        env:
+          node-module-cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-${{ env.cache-name }}
+
+      - name: Install Dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: yarn
