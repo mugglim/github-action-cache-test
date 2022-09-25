@@ -1,9 +1,5 @@
 name: Caching node modules
-
-on:
-  push:
-    branches: [develop]
-    paths: ['src']
+on: push
 
 jobs:
   build:
@@ -13,16 +9,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Cache node modules
-        id: node-cache
         uses: actions/cache@v3
+        id: node-cache
         env:
           node-module-cache-name: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-modules-${{ env.node-module-cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-${{ env.cache-name }}
+            ${{ runner.os }}-node-modules-${{ env.node-module-cache-name }}
 
       - name: Install Dependencies
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: yarn
+
+      - name: Test
+        run: yarn test
