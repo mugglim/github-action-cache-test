@@ -16,4 +16,8 @@ describe('sum(x,y) = x+y', () => {
   test('5 + 8 = 13', () => {
     expect(sum(5, 8)).toBe(13);
   });
+
+  test('7 + 11 = 18', () => {
+    expect(sum(7, 11)).toBe(18);
+  });
 });
